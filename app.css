@@ -1,0 +1,111 @@
+/* ===== GLOBAL STYLING ===== */
+
+body {
+    background-color: hsl(var(--b1));
+    /* DaisyUI base */
+    color: hsl(var(--bc));
+}
+
+/* Navbar spacing */
+.navbar {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+    .navbar {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+/* Smooth dropdown animation */
+.dropdown-content {
+    transition: all 0.2s ease;
+}
+
+/* Section title */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .section-title {
+        font-size: 1.875rem;
+    }
+}
+
+/* ===== FLIGHT CARD ===== */
+.card {
+    border-radius: 16px;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+/* ===== SEAT LAYOUT ===== */
+
+/* Grid (6 seats + aisle) */
+.seats-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    justify-items: center;
+}
+
+/* Seat button */
+.seat-btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    background-color: rgb(253 199 0);
+    color: brown;
+    transition: all 0.2s ease;
+}
+
+.seat-btn:hover {
+    transform: translateY(-5px);
+}
+
+/* Selected */
+.seat-btn.selected {
+    background-color: rgb(96 93 255);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Booked */
+.seat-btn.booked {
+    background-color: red;
+    color: white;
+    cursor: not-allowed;
+}
+
+/* Aisle spacing */
+.seats-grid div {
+    width: 5px;
+}
+
+
+/* page-container */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 50px;
+}
+
+
+/* Responsive */
+@media (max-width: 640px) {
+    .seat-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.75rem;
+    }
+}
