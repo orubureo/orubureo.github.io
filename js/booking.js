@@ -1,162 +1,234 @@
-let flightId = localStorage.getItem("selectedFlight");
-let flights = JSON.parse(localStorage.getItem("results")) || [];
-let selectedFlight = flights.find((f) => f.id == flightId);
+/* =========================
+   GET DATA
+========================= */
 
-let date = localStorage.getItem("searchDate") || "";
-let selectedSeats = JSON.parse(localStorage.getItem("selectedSeats")) || [];
-let seatPrice = selectedFlight?.price || 50000;
-let totalPrice = selectedSeats.length * seatPrice;
+const selectedFlight = JSON.parse(localStorage.getItem("selectedFlight"));
 
-/* SHOW FLIGHT DETAILS */
-document.getElementById("seatInfo").innerHTML = `
-<div class="flex flex-col gap-2">
-  <p><strong>Airline:</strong> ${selectedFlight.airline}</p>
-  <p><strong>Flight Number:</strong> ${selectedFlight.id}</p>
-  <p><strong>Date:</strong> ${date}</p>
-  <p><strong>Seats:</strong> ${selectedSeats.join(", ")}</p>
-  <p><strong>Total:</strong> ₦${totalPrice.toLocaleString()}</p>
-</div>
-`;
-
-// Alert pop up
-function showAlert(message, type = "info") {
-  let alertBox = document.getElementById("alertBox");
-
-  let alert = document.createElement("div");
-  alert.className = `alert alert-${type} mb-2`;
-
-  alert.innerHTML = `
-    <span>${message}</span>
-  `;
-
-  alertBox.innerHTML = ""; // clears old alerts
-  alertBox.appendChild(alert);
-
-  // Auto remove after 3 seconds
-  setTimeout(() => {
-    alert.remove();
-  }, 3000);
+if (!selectedFlight) {
+  alert("No flight selected");
+  window.location.href = "index.html";
 }
 
-// Card Validation
-let paymentMethod = document.getElementById("paymentMethod");
-let cardDetails = document.getElementById("cardDetails");
+const flightId = selectedFlight.id;
+const seatPrice = Number(selectedFlight.price) || 50000;
 
-paymentMethod.addEventListener("change", () => {
-  if (paymentMethod.value === "card") {
-    cardDetails.classList.remove("hidden");
-  } else {
-    cardDetails.classList.add("hidden");
-  }
-});
+const date = localStorage.getItem("searchDate") || "";
+const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats")) || [];
 
-let cardNumberInput = document.getElementById("cardNumber");
+const totalPrice = selectedSeats.length * seatPrice;
 
-// Format Card
-cardNumberInput.addEventListener("input", (e) => {
-  let value = e.target.value.replace(/\D/g, ""); // remove non-digits
-  value = value.substring(0, 16); // limit to 16 digits
+/* =========================
+   FLIGHT SUMMARY
+========================= */
 
-  let formatted = value.match(/.{1,4}/g)?.join(" ") || value;
+const seatInfo = document.getElementById("seatInfo");
 
-  e.target.value = formatted;
-});
+if (seatInfo) {
+  seatInfo.innerHTML = `
+    <div class="seat-top">
+      <h2 class="seat-airline">${selectedFlight.airline || "Airline"}</h2>
+      <span class="seat-badge">CONFIRMED ROUTE</span>
+    </div>
 
-// Format expiry date
-let expiryInput = document.getElementById("expiry");
+    <div class="seat-body">
+      <div class="seat-row">
+        <span>Flight No</span>
+        <strong>${flightId}</strong>
+      </div>
 
-expiryInput.addEventListener("input", (e) => {
-  let value = e.target.value.replace(/\D/g, "").substring(0, 4);
+      <div class="seat-row">
+        <span>Date</span>
+        <strong>${date}</strong>
+      </div>
 
-  if (value.length >= 3) {
-    value = value.slice(0, 2) + "/" + value.slice(2);
-  }
+      <div class="seat-row">
+        <span>Seats</span>
+        <strong>${selectedSeats.join(", ") || "-"}</strong>
+      </div>
 
-  e.target.value = value;
-});
+      <hr class="seat-divider"/>
 
-// CVV
-let cvvInput = document.getElementById("cvv");
-
-cvvInput.addEventListener("input", (e) => {
-  e.target.value = e.target.value.replace(/\D/g, "").substring(0, 3);
-});
-
-let bookBtn = document.getElementById("bookBtn");
-
-document.getElementById("bookBtn").addEventListener("click", () => {
-  let name = document.getElementById("passengerName").value;
-  let payment = document.getElementById("paymentMethod").value;
-
-  if (!name) {
-    showAlert("Please enter passenger name", "error");
-    return;
-  }
-
-  if (!payment) {
-    showAlert("Select payment method");
-    return;
-  }
-
-  // Card validation
-  if (payment === "card") {
-    let cardNumber = document
-      .getElementById("cardNumber")
-      .value.replace(/\s/g, "");
-    let expiry = document.getElementById("expiry").value;
-    let cvv = document.getElementById("cvv").value;
-
-    if (cardNumber.length !== 16) {
-      showAlert("Card number must be 16 digits", "error");
-      return;
-    }
-
-    if (!/^\d{2}\/\d{2}$/.test(expiry)) {
-      showAlert("Expiry must be in MM/YY format", "error");
-      return;
-    }
-
-    if (cvv.length !== 3) {
-      showAlert("CVV must be 3 digits", "error");
-      return;
-    }
-  }
-
-  bookBtn.innerHTML = `
-  Processing...<span class="loading loading-spinner"></span>
+      <div class="seat-total">
+        <span>Total</span>
+        <span>₦${totalPrice.toLocaleString()}</span>
+      </div>
+    </div>
   `;
-  bookBtn.disabled = true;
+}
 
+/* =========================
+   ALERT SYSTEM
+========================= */
+
+function showAlert(message, type = "info") {
+  const alertBox = document.getElementById("alertBox");
+  if (!alertBox) return;
+
+  const alert = document.createElement("div");
+  alert.className = `alert-box ${type}`;
+  alert.textContent = message;
+
+  alertBox.appendChild(alert);
+
+  // auto remove
   setTimeout(() => {
-    let flight = localStorage.getItem("selectedFlight");
-
-    let flights = JSON.parse(localStorage.getItem("results")) || [];
-
-    let selectedFlight = flights.find((f) => f.id == flight);
-
-    let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
-
-    let booking = {
-      bookingId: Date.now(),
-      flightId: flight,
-      passengerName: name,
-      seatNumbers: selectedSeats,
-      flightDate: date,
-      bookingDate: new Date().toLocaleString(),
-      flightAirline: selectedFlight.airline,
-      totalAmount: totalPrice,
-    };
-
-    bookings.push(booking);
-
-    // ✅ SAVE FULL BOOKINGS LIST
-    localStorage.setItem("bookings", JSON.stringify(bookings));
-
-    // ✅ SAVE LAST BOOKING
-    localStorage.setItem("latestBooking", JSON.stringify(booking));
-
-    showAlert("Booking successful!", "success");
-
-    window.location.href = "receipt.html";
+    alert.classList.add("fade-out");
+    setTimeout(() => alert.remove(), 250);
   }, 3000);
-});
+
+  // limit max alerts (clean UI)
+  if (alertBox.children.length > 3) {
+    alertBox.removeChild(alertBox.firstChild);
+  }
+}
+
+/* =========================
+   PAYMENT TOGGLE
+========================= */
+
+const paymentMethod = document.getElementById("paymentMethod");
+const cardDetails = document.getElementById("cardDetails");
+
+if (paymentMethod && cardDetails) {
+  paymentMethod.addEventListener("change", () => {
+    cardDetails.classList.toggle("hidden", paymentMethod.value !== "card");
+  });
+}
+
+/* =========================
+   INPUT FORMATTING
+========================= */
+
+const cardNumberInput = document.getElementById("cardNumber");
+const expiryInput = document.getElementById("expiry");
+const cvvInput = document.getElementById("cvv");
+
+if (cardNumberInput) {
+  cardNumberInput.addEventListener("input", (e) => {
+    let value = e.target.value.replace(/\D/g, "").slice(0, 16);
+    e.target.value = value.match(/.{1,4}/g)?.join(" ") || value;
+
+    updateCardPreview();
+  });
+}
+
+if (expiryInput) {
+  expiryInput.addEventListener("input", (e) => {
+    let value = e.target.value.replace(/\D/g, "").slice(0, 4);
+
+    if (value.length >= 3) {
+      value = value.slice(0, 2) + "/" + value.slice(2);
+    }
+
+    e.target.value = value;
+
+    updateCardPreview();
+  });
+}
+
+if (cvvInput) {
+  cvvInput.addEventListener("input", (e) => {
+    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 3);
+  });
+}
+
+/* =========================
+   LIVE CARD PREVIEW
+========================= */
+
+const nameInput = document.getElementById("passengerName");
+
+const numberPreview = document.querySelector(".card-number-preview");
+const expiryPreview = document.querySelector(".card-expiry");
+const namePreview = document.querySelector(".card-name");
+
+function updateCardPreview() {
+  if (cardNumberInput && numberPreview) {
+    numberPreview.textContent = cardNumberInput.value || "•••• •••• •••• ••••";
+  }
+
+  if (expiryInput && expiryPreview) {
+    expiryPreview.textContent = expiryInput.value || "MM/YY";
+  }
+
+  if (nameInput && namePreview) {
+    namePreview.textContent = nameInput.value.toUpperCase() || "YOUR NAME";
+  }
+}
+
+if (nameInput) {
+  nameInput.addEventListener("input", updateCardPreview);
+}
+
+/* =========================
+   BOOKING LOGIC
+========================= */
+
+const bookBtn = document.getElementById("bookBtn");
+
+if (bookBtn) {
+  bookBtn.addEventListener("click", () => {
+    const name = document.getElementById("passengerName").value.trim();
+    const payment = paymentMethod?.value;
+
+    if (!name) {
+      showAlert("Enter passenger name", "error");
+      return;
+    }
+
+    if (!payment) {
+      showAlert("Select payment method", "error");
+      return;
+    }
+
+    // card validation
+    if (payment === "card") {
+      const number = cardNumberInput.value.replace(/\s/g, "");
+      const exp = expiryInput.value;
+      const cvv = cvvInput.value;
+
+      if (number.length !== 16) {
+        showAlert("Invalid card number", "error");
+        return;
+      }
+
+      if (!/^\d{2}\/\d{2}$/.test(exp)) {
+        showAlert("Invalid expiry format", "error");
+        return;
+      }
+
+      if (cvv.length !== 3) {
+        showAlert("Invalid CVV", "error");
+        return;
+      }
+    }
+
+    // loading state
+    bookBtn.classList.add("loading");
+    bookBtn.disabled = true;
+
+    setTimeout(() => {
+      const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+      const booking = {
+        bookingId: Date.now(),
+        flightId,
+        passengerName: name,
+        seatNumbers: selectedSeats,
+        flightDate: date,
+        bookingDate: new Date().toLocaleString(),
+        flightAirline: selectedFlight.airline || "Unknown",
+        totalAmount: totalPrice,
+      };
+
+      bookings.push(booking);
+
+      localStorage.setItem("bookings", JSON.stringify(bookings));
+      localStorage.setItem("latestBooking", JSON.stringify(booking));
+
+      showAlert("Booking successful!", "success");
+
+      window.location.href = "receipt.html";
+    }, 2000);
+  });
+}

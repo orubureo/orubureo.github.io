@@ -1,0 +1,246 @@
+/* =========================
+   LIGHT THEME (DEFAULT)
+========================= */
+
+:root {
+    --bg: #f8fafc;
+    --surface: rgba(255, 255, 255, 0.8);
+    --surface-solid: #ffffff;
+    --surface-2: #f1f5f9;
+
+    --border: rgba(0, 0, 0, 0.08);
+
+    --text: #0f172a;
+    --muted: #64748b;
+
+    --primary: #2563eb;
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+[data-theme="dark"] {
+    --bg: #070b14;
+    --surface: rgba(17, 24, 39, 0.65);
+    --surface-solid: #111827;
+    --surface-2: #1f2937;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+
+    --primary: #3b82f6;
+}
+
+/* =========================
+   BASE
+========================= */
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* =========================
+   NAVBAR (CLEAN GLASS)
+========================= */
+
+.navbar {
+    background: var(--surface) !important;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+/* dropdown fix */
+.menu,
+.dropdown-content {
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border);
+}
+
+/* =========================
+   PAGE WRAPPER
+========================= */
+
+.max-w-6xl h2 {
+    color: var(--text);
+}
+
+/* =========================
+   RESULTS LAYOUT
+========================= */
+
+#results {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* =========================
+   FLIGHT CARD (FINAL POLISH)
+========================= */
+
+.flight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+
+    padding: 1.5rem;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+
+    transition: 0.25s ease;
+}
+
+.flight-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* LEFT */
+.flight-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+
+.flight-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.airline {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* route */
+.route {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.city {
+    font-size: 1rem;
+}
+
+.arrow {
+    opacity: 0.6;
+}
+
+/* meta */
+.meta {
+    display: flex;
+    gap: 2rem;
+}
+
+.label {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.value {
+    font-weight: 600;
+}
+
+/* badge */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--primary);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* RIGHT */
+.flight-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    min-width: 160px;
+}
+
+.price {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.hint {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--muted);
+}
+
+/* =========================
+   SKELETON
+========================= */
+
+.flight-skeleton {
+    height: 120px;
+    border-radius: 16px;
+    background: linear-gradient(90deg,
+            #1f2937 25%,
+            #374151 37%,
+            #1f2937 63%);
+
+    background-size: 400% 100%;
+    animation: shimmer 1.3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+/* FOOTER */
+
+footer.footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface-2);
+}
+
+footer.footer {
+    position: relative;
+}
+
+footer.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+
+    background: linear-gradient(to right,
+            transparent,
+            var(--border),
+            transparent);
+}

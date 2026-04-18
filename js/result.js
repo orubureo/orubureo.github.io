@@ -1,56 +1,68 @@
 let flights = JSON.parse(localStorage.getItem("results")) || [];
-
 let container = document.getElementById("results");
+
+container.innerHTML = "";
 
 if (flights.length === 0) {
   container.innerHTML = `
-  <div class="text-center py-10 opacity-70">
-    <p class="text-lg">No flights found</p>
-    <p class="text-sm">Try a different route or date</p>
-  </div>
+    <div class="empty-state">
+      <p class="title">No flights found</p>
+      <p class="subtitle">Try a different route or date</p>
+    </div>
   `;
 }
 
 flights.forEach((flight) => {
-  let card = document.createElement("div");
-
-  card.className =
-    "card bg-base-200/80 backdrop-blur-md border border-base-300 shadow-lg p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:shadow-xl hover:-translate-y-1 transition duration-300";
+  const card = document.createElement("div");
+  card.className = "flight-card";
 
   card.innerHTML = `
-  <div <div class="flex flex-col md:items-end gap-3 w-full md:w-auto">
-    <h3 class="text-xl font-semibold">${flight.airline}</h3>
-    
-    <p class="font-medium">
-      ${flight.origin} → ${flight.destination}
-    </p>
+    <div class="flight-main">
 
-    <p class="text-sm opacity-70">
-      ${flight.departureTime} - ${flight.arrivalTime}
-    </p>
-  </div>
+      <div class="flight-top">
+        <h3 class="airline">${flight.airline}</h3>
+        <span class="badge">Available</span>
+      </div>
 
-  <div class="flex flex-col md:items-end gap-10 w-full md:w-auto">
-    
-    <p class="text-xl md:text-2xl font-bold text-primary">
-      ₦${Number(flight.price).toLocaleString()}
-    </p>
+      <div class="route">
+        <span class="city">${flight.origin}</span>
+        <span class="arrow">→</span>
+        <span class="city">${flight.destination}</span>
+      </div>
 
-    <button class="btn btn-primary btn-sm md:btn-md w-full md:w-auto">
-      Select Seat
-    </button>
+      <div class="meta">
+        <div>
+          <p class="label">Departure</p>
+          <p class="value">${flight.departureTime}</p>
+        </div>
 
-  </div>
- `;
+        <div>
+          <p class="label">Arrival</p>
+          <p class="value">${flight.arrivalTime}</p>
+        </div>
+      </div>
 
-  card.querySelector("button").addEventListener("click", () => {
-    // ✅ Save selected flight
+    </div>
+
+    <div class="flight-side">
+
+      <div class="price-box">
+        <p class="price">
+          ₦${Number(flight.price).toLocaleString()}
+        </p>
+        <p class="hint">per passenger</p>
+      </div>
+
+      <button class="btn btn-primary select-seat-btn">
+        Book Flight
+      </button>
+
+    </div>
+  `;
+
+  card.querySelector(".select-seat-btn").addEventListener("click", () => {
     localStorage.setItem("selectedFlight", flight.id);
-
-    // ✅ CLEAR previously selected seats
     localStorage.removeItem("selectedSeats");
-
-    // (optional but smart)
     localStorage.removeItem("latestBooking");
 
     window.location.href = "seats.html";

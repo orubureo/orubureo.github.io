@@ -1,0 +1,264 @@
+/* =========================
+   LIGHT THEME (DEFAULT)
+========================= */
+
+:root {
+    --bg: #f8fafc;
+    --surface: rgba(255, 255, 255, 0.55);
+    --surface-solid: #ffffff;
+    --surface-2: #f1f5f9;
+
+    --border: rgba(0, 0, 0, 0.08);
+
+    --text: #0f172a;
+    --muted: #64748b;
+
+    --primary: #2563eb;
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+[data-theme="dark"] {
+    --bg: #070b14;
+    --surface: rgba(17, 24, 39, 0.75);
+    --surface-solid: #111827;
+    --surface-2: #1f2937;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+
+    --primary: #3b82f6;
+}
+
+/* =========================
+   BASE
+========================= */
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* =========================
+   NAVBAR (CLEAN GLASS)
+========================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--surface) !important;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+/* dropdown fix */
+.menu,
+.dropdown-content {
+    z-index: 1100 !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border);
+}
+
+/* =========================
+   PAGE WRAPPER
+========================= */
+
+.max-w-6xl h2 {
+    color: var(--text);
+}
+
+
+/* ===== SEAT LAYOUT ===== */
+
+/* Grid (6 seats + aisle) */
+.seats-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    justify-items: center;
+}
+
+/* =========================
+   SEAT LEGEND 
+========================= */
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    font-size: 0.8rem;
+}
+
+/* dot base */
+.legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+}
+
+/* match your seat styles */
+.legend-dot.available {
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0.6));
+    border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .legend-dot.available {
+    background: linear-gradient(135deg,
+            rgba(31, 41, 55, 0.8),
+            rgba(17, 24, 39, 0.6));
+}
+
+.legend-dot.selected {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.legend-dot.booked {
+    background: linear-gradient(135deg,
+            rgba(239, 68, 68, 0.9),
+            rgba(220, 38, 38, 0.8));
+}
+
+/* =========================
+   SEAT BUTTON 
+========================= */
+
+
+.seat-btn {
+    width: 60px;
+    height: 42px;
+    border-radius: 10px;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    border: 1px solid var(--border);
+
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0.6));
+
+    color: var(--text);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+/* DARK MODE */
+[data-theme="dark"] .seat-btn {
+    background: linear-gradient(135deg,
+            rgba(31, 41, 55, 0.8),
+            rgba(17, 24, 39, 0.6));
+}
+
+/* HOVER */
+.seat-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    border-color: var(--primary);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* SELECTED */
+.seat-btn.selected {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    border-color: transparent;
+
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+}
+
+/* BOOKED */
+.seat-btn.booked {
+    background: linear-gradient(135deg,
+            rgba(239, 68, 68, 0.85),
+            rgba(220, 38, 38, 0.75));
+    color: white;
+    cursor: not-allowed;
+    border-color: transparent;
+    opacity: 0.85;
+}
+
+/* ACTIVE CLICK FEEDBACK */
+.seat-btn:active {
+    transform: scale(0.95);
+}
+
+/* Aisle spacing */
+.seats-grid div {
+    width: 5px;
+}
+
+/* page-container */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 50px;
+}
+
+/* Section title */
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .section-title {
+        font-size: 1.875rem;
+    }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .seat-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 0.75rem;
+    }
+}
+
+/* FOOTER */
+
+footer.footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface-2);
+}
+
+footer.footer {
+    position: relative;
+}
+
+footer.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+
+    background: linear-gradient(to right,
+            transparent,
+            var(--border),
+            transparent);
+}

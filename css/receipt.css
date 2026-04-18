@@ -1,0 +1,179 @@
+/* =========================
+   LIGHT THEME (DEFAULT)
+========================= */
+
+:root {
+    --bg: #f8fafc;
+    --surface: rgba(255, 255, 255, 0.55);
+    --surface-solid: #ffffff;
+    --surface-2: #f1f5f9;
+
+    --border: rgba(0, 0, 0, 0.08);
+
+    --text: #0f172a;
+    --muted: #64748b;
+
+    --primary: #2563eb;
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+[data-theme="dark"] {
+    --bg: #070b14;
+    --surface: rgba(17, 24, 39, 0.75);
+    --surface-solid: #111827;
+    --surface-2: #1f2937;
+
+    --border: rgba(255, 255, 255, 0.08);
+
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+
+    --primary: #3b82f6;
+}
+
+/* =========================
+   BASE
+========================= */
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* =========================
+   NAVBAR (CLEAN GLASS)
+========================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--surface) !important;
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+}
+
+/* dropdown fix */
+.menu,
+.dropdown-content {
+    z-index: 1100 !important;
+    background: var(--surface-solid) !important;
+    border: 1px solid var(--border);
+}
+
+/* =========================
+   PAGE WRAPPER
+========================= */
+
+.max-w-6xl h2 {
+    color: var(--text);
+}
+
+/* ===== RECEIPT ===== */
+
+.receipt-card {
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.status-paid {
+    background: #16a34a;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.total-amount {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.custom-alert {
+    background: #111827;
+    color: #fff;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.custom-alert.success {
+    background: #16a34a;
+}
+
+.custom-alert.error {
+    background: #dc2626;
+}
+
+.custom-btn {
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.custom-btn.primary {
+    background: #2563eb;
+    color: #fff;
+}
+
+.custom-btn.primary:hover {
+    background: #1d4ed8;
+}
+
+.custom-btn.outline {
+    background: transparent;
+    border: 1px solid #2563eb;
+    color: #2563eb;
+}
+
+.custom-btn.outline:hover {
+    background: #2563eb;
+    color: #fff;
+}
+
+.pdf-mode {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Optional: fix buttons inside PDF */
+.pdf-mode button {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+/* FOOTER */
+
+footer.footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface-2);
+}
+
+footer.footer {
+    position: relative;
+}
+
+footer.footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+
+    background: linear-gradient(to right,
+            transparent,
+            var(--border),
+            transparent);
+}

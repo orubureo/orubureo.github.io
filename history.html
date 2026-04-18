@@ -21,12 +21,12 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- App CSS -->
-    <link rel="stylesheet" href="/app.css">
+    <link rel="stylesheet" href="/css/history.css">
 </head>
 
 <body>
 
-    <div class="navbar bg-base-100 shadow-md px-4">
+    <div class="navbar px-4">
 
         <!-- LEFT -->
         <div class="navbar-start">
@@ -55,8 +55,9 @@
                 </ul>
             </div>
 
-            <!-- Logo (hidden on small) -->
-            <img src="./images/FlightRez-logo.png" class="h-10 hidden md:block ml-2" alt="">
+            <!-- CENTER LOGO (NOW ALWAYS VISIBLE) -->
+            <img src="./images/FlightRez-logo.png"
+                class="h-9 absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0" alt="logo" />
 
         </div>
 
@@ -81,10 +82,9 @@
         <div class="navbar-end">
 
             <!-- Theme toggle -->
-            <label class="btn btn-ghost rounded-full swap swap-rotate">
+            <label class="btn btn-ghost rounded-full swap">
                 <input type="checkbox" id="darkToggle" />
-                <i data-lucide="sun" class="swap-off"></i>
-                <i data-lucide="moon" class="swap-on"></i>
+                <i data-lucide="moon"></i>
             </label>
 
         </div>
@@ -104,7 +104,7 @@
 
     </div>
 
-    <footer class="footer sm:footer-horizontal bg-base-300 text-base-content p-10">
+    <footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
         <aside>
             <svg width="50" height="50" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
                 clip-rule="evenodd" class="fill-current">

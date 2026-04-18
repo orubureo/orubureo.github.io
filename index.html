@@ -18,15 +18,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!-- Lucide icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
 
     <!-- App CSS -->
-    <link rel="stylesheet" href="/app.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 
 <body>
 
-    <div class="navbar bg-base-100 shadow-md px-4">
+    <div class="navbar px-4">
 
         <!-- LEFT -->
         <div class="navbar-start">
@@ -40,7 +40,7 @@
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
 
-                    <li><a href="./history.html">Bookings History</a></li>
+                    <li><a href="./history.html">Booking History</a></li>
                     <li>
                         <details>
                             <summary>More</summary>
@@ -55,8 +55,9 @@
                 </ul>
             </div>
 
-            <!-- Logo (hidden on small) -->
-            <img src="./images/FlightRez-logo.png" class="h-10 hidden md:block ml-2" alt="">
+            <!-- CENTER LOGO (NOW ALWAYS VISIBLE) -->
+            <img src="./images/FlightRez-logo.png"
+                class="h-9 absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0" alt="logo" />
 
         </div>
 
@@ -81,63 +82,65 @@
         <div class="navbar-end">
 
             <!-- Theme toggle -->
-            <label class="btn btn-ghost rounded-full swap swap-rotate">
+            <label class="btn btn-ghost rounded-full swap">
                 <input type="checkbox" id="darkToggle" />
-                <i data-lucide="sun" class="swap-off"></i>
-                <i data-lucide="moon" class="swap-on"></i>
+                <i data-lucide="moon"></i>
             </label>
 
         </div>
 
     </div>
 
-    <div class="header p-5 bg-base-200">
+    <section class="hero-section">
 
-        <form id="searchForm" class="flex flex-col lg:flex-row gap-4 p-4 max-w-6xl mx-auto">
+        <div class="hero-inner">
 
-            <div class="flex flex-col sm:flex-row gap-4 w-full">
+            <h1 class="hero-title">
+                Book flights<br />
+                Seamlessly
+            </h1>
 
-                <select class="select select-bordered w-full">
-                    <option>One-way</option>
-                    <option>Round-trip</option>
-                    <option>Multi-city</option>
-                </select>
+            <p class="hero-subtitle">
+                Compare prices and find the best deals in seconds.
+            </p>
 
-                <select class="select select-bordered w-full">
-                    <option>Economy</option>
-                    <option>Premium</option>
-                    <option>Business</option>
-                    <option>First</option>
-                </select>
+            <!-- SEARCH -->
+            <div class="search-card">
+
+                <form id="searchForm" class="search-form">
+
+                    <input class="input-field" type="text" id="origin" placeholder="From">
+
+                    <button type="button" id="swapBtn" class="swap-btn"><i data-lucide="arrow-left-right"></i></button>
+
+                    <input class="input-field" type="text" id="destination" placeholder="To">
+
+                    <input class="input-field" type="date" id="date" required>
+
+                    <button type="submit" class="search-btn">
+                        Search Flights
+                    </button>
+
+                    <button type="button" id="resetBtn" class="btn btn-ghost">
+                        Reset
+                    </button>
+
+                </form>
+
+                <p id="priceHint" class="price-hint"></p>
 
             </div>
 
-            <input class="input input-bordered w-full" type="text" id="origin" placeholder="Origin">
-
-            <input class="input input-bordered w-full" type="text" id="destination" placeholder="Destination">
-
-            <input class="input input-bordered w-full" type="date" id="date" required>
-
-            <button type="submit" class="btn btn-primary w-full lg:w-auto">
-                Search
-            </button>
-
-        </form>
-
-    </div>
-
-    <div class="hero min-h-[70vh]"
-        style="background-image: url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp);">
-        <div class="hero-overlay bg-black/60"></div>
-        <div class="hero-content text-neutral-content text-center">
-            <div class="max-w-md">
-                <p class="mb-5">
-                    Can't decide where to go ?
-                </p>
-                <h1 class="mb-5 text-5xl font-bold">Explore every <br>destination</h1>
-                <button class="btn btn-primary">Get Started</button>
-            </div>
         </div>
+
+    </section>
+
+
+    <!-- Available Flight -->
+    <div class="max-w-6xl mx-auto px-4 py-10">
+        <h2 class="text-2xl font-bold mb-6">Available Flights</h2>
+
+        <div id="results" class="space-y-6"></div>
     </div>
 
     <footer class="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
